@@ -1,3 +1,3 @@
 PyMNtos lightning talk on small arrays
 
-http://jkfurtney.github.io/small-array
+http://jkfurtney.github.io/pymntos-small-array
