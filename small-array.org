@@ -1,0 +1,265 @@
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/2.5.0/
+#+TITLE: small arrays
+#+EMAIL: @jkfurtney
+#+AUTHOR: Jason Furtney
+#+OPTIONS: toc:nil num:nil reveal_mathjax:t
+
+* pyttsx
+
+#+BEGIN_SRC python
+import pyttsx
+
+engine = pyttsx.init()
+engine.say("Hello world")
+engine.runAndWait()
+#+END_SRC
+
+Cross-platform text to speech
+
+** Announce the time
+
+#+BEGIN_SRC python
+import time
+import pyttsx
+import schedule
+
+engine = pyttsx.init()
+
+def say_time():
+    s = time.localtime()
+    h, m = s.tm_hour, s.tm_min
+    if m == 0:
+        suffix = " o clock "
+    else:
+        suffix = " thirty "
+    announcement = " It is {hour} {suffix}".format(hour=str(h), suffix=suffix)
+    engine.say(announcement))
+    engine.runAndWait()
+
+schedule.every().hour.at(":00").do(say_time)
+schedule.every().hour.at(":30").do(say_time)
+
+while True:
+    schedule.run_pending()
+    time.sleep(5)
+
+#+END_SRC
+
+* Python Easter Eggs
+
+#+BEGIN_SRC python
+import this
+
+import antigravity
+
+from __future__ import braces
+#+END_SRC
+
+** import this
+
+#+BEGIN_SRC python
+s = """Gur Mra bs Clguba, ol Gvz Crgref
+
+Ornhgvshy vf orggre guna htyl.
+Rkcyvpvg vf orggre guna vzcyvpvg.
+Fvzcyr vf orggre guna pbzcyrk.
+Pbzcyrk vf orggre guna pbzcyvpngrq.
+Syng vf orggre guna arfgrq.
+Fcnefr vf orggre guna qrafr.
+Ernqnovyvgl pbhagf.
+Fcrpvny pnfrf nera'g fcrpvny rabhtu gb oernx gur ehyrf.
+Nygubhtu cenpgvpnyvgl orngf chevgl.
+Reebef fubhyq arire cnff fvyragyl.
+Hayrff rkcyvpvgyl fvyraprq.
+Va gur snpr bs nzovthvgl, ershfr gur grzcgngvba gb thrff.
+Gurer fubhyq or bar-- naq cersrenoyl bayl bar --boivbhf jnl gb qb vg.
+Nygubhtu gung jnl znl abg or boivbhf ng svefg hayrff lbh'er Qhgpu.
+Abj vf orggre guna arire.
+Nygubhtu arire vf bsgra orggre guna *evtug* abj.
+Vs gur vzcyrzragngvba vf uneq gb rkcynva, vg'f n onq vqrn.
+Vs gur vzcyrzragngvba vf rnfl gb rkcynva, vg znl or n tbbq vqrn.
+Anzrfcnprf ner bar ubaxvat terng vqrn -- yrg'f qb zber bs gubfr!"""
+
+d = {}
+for c in (65, 97):
+    for i in range(26):
+        d[chr(i+c)] = chr((i+13) % 26 + c)
+
+print "".join([d.get(c, c) for c in s])
+#+END_SRC
+
+* Small NumPy Arrays (N<100)
+
+- =numpy= is fantastic!
+
+- You want a big chunk of data in a single array
+  - slices, array views, broadcasting, fancy indexing, ufuncs & cetera.
+
+- But not always
+  - =numpy= it can be slow for small arrays
+  - Because of... constant time and space overhead
+  - See: http://stackoverflow.com/questions/6559463/why-is-numpy-array-so-slow
+  - =numpy= is not designed for working with many small arrays
+
+** the problem
+
+#+BEGIN_SRC python
+import numpy as np
+
+%timeit np.array((1,0, 2.0, 3.0))    # 780 ns
+
+%timeit [1,0, 2.0, 3.0]              # 74 ns
+
+%timeit (1,0, 2.0, 3.0)              # 13 ns
+#+END_SRC
+
+** numpy c code
+
+#+BEGIN_SRC c
+typedef struct tagPyArrayObject_fields {
+    PyObject_HEAD
+    char *data;
+    int nd;
+    npy_intp *dimensions;
+    npy_intp *strides;
+    PyObject *base;
+    PyArray_Descr *descr;
+    int flags;
+    PyObject *weakreflist;
+} PyArrayObject_fields;
+
+typedef struct _PyArray_Descr {
+        PyObject_HEAD
+        PyTypeObject *typeobj;
+        char kind;
+        char type;
+        char byteorder;
+        char flags;
+        int type_num;
+        int elsize;
+        int alignment;
+        struct _arr_descr *subarray;
+        PyObject *fields;
+        PyObject *names;
+        PyArray_ArrFuncs *f;
+        PyObject *metadata;
+        NpyAuxData *c_metadata;
+} PyArray_Descr;
+#+END_SRC
+
+* tinyarray
+
+- Designed for arrays with less than 100 elements
+- Interop with =numpy= arrays
+- Immutable
+- Up-to 35x faster than =numpy=
+- http://git.kwant-project.org/tinyarray/about/
+
+
+#+BEGIN_SRC python
+from math import sin, cos, sqrt
+import tinyarray as ta
+
+v = ta.array([1.0, 2.0, 3.0])
+
+alpha = 0.77
+c, s = cos(alpha), sin(alpha)
+rot_z = ta.array([[c, -s, 0],
+                  [s,  c, 0],
+                  [0,  0, 1]])
+
+v = ta.dot(rot_z, v) # Rotate the vector, normalize, and print it.
+v /= sqrt(ta.dot(v, v))
+print v
+#+END_SRC
+
+** timing
+
+#+BEGIN_SRC python
+import numpy as np
+import tinyarray as ta
+
+%timeit np.array((1,0, 2.0, 3.0))    # 780 ns
+%timeit ta.array((1,0, 2.0, 3.0))    # 176 ns
+
+%timeit 3 * np.array((1.0, 2.0, 3.0)) + np.array((99.1, 99.2, 99.2)) # 3910 ns
+%timeit 3 * ta.array((1.0, 2.0, 3.0)) + ta.array((99.1, 99.2, 99.2)) #  650 ns
+
+#+END_SRC
+
+- =tinyarray= still has too much constant overhead for length three
+  vectors
+  - Itasca's in-house scripting language is 15% faster than Python +
+    =tinyarray= for length three vectors.
+- Is there anything else?
+
+* dvec
+
+- Double precision only
+- Length 3 vectors and 3x3 symetric tensors only
+- Interop with numpy
+- Defines useful methods: dot product, cross product, normalize,
+  magnitude & cetera.
+
+#+BEGIN_SRC c
+typedef struct dvec3 {
+    PyObject_HEAD
+    double x;
+    double y;
+    double z;
+}
+#+END_SRC
+
+** timing
+
+#+BEGIN_SRC python
+import numpy as np
+import tinyarray as ta
+from dvec import dvec3
+
+%timeit np.array((1,0, 2.0, 3.0))    # 780 ns
+%timeit ta.array((1,0, 2.0, 3.0))    # 176 ns
+%timeit dvec3((1.0, 2.0, 3.0))       #  73 ns
+
+%timeit 3 * np.array((1.0, 2.0, 3.0)) + np.array((99.1, 99.2, 99.2))  # 3910 ns
+%timeit 3 * ta.array((1.0, 2.0, 3.0)) + ta.array((99.1, 99.2, 99.2))  #  650 ns
+%timeit 3 * dvec3((1.0, 2.0, 3.0)) + dvec3((99.1, 99.2, 99.2))        #  414 ns
+#+END_SRC
+
+- Python + =dvec= module is 30% faster than Itasca's in-house scripting system.
+
+** cython implementation
+
+#+BEGIN_SRC python
+ctypedef class dvec3:
+    cdef public double x_, y_, z_
+    def __cinit__(self, double x, double y, double z):
+        self.x_ = x
+        self.y_ = y
+        self.z_ = z
+
+    def __len__(self): return 3
+
+    def __getitem__(self, int i):
+        if i == 0: return self.x_
+        elif i == 1: return self.y_
+        elif i == 2: return self.z_
+        else: raise IndexError("index out of range")
+
+    def __add__(self, other):
+        if type(self) is dvec3:
+            return dvec3.__new__(dvec3, self.x_ + other.x_,
+                                        self.y_ + other.y_,
+                                        self.z_ + other.z_)
+        if type(other) is float:
+            return dvec3.__new__(dvec3, self.x_ + other,
+                                        self.y_ + other,
+                                        self.z_ + other)
+        return NotImplemented
+
+    def __repr__(self):
+        return "dvec3({:9e}, {:9e}, {:9e})".format(self.x_, self.y_, self.z_)
+
+#+END_SRC
+
+* Thank you
