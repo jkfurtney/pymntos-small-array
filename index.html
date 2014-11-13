@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>small arrays</title>
+<meta name="author" content="(Jason Furtney)"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/reveal.min.css"/>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/2.5.0/css/theme/default.css" id="theme"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/2.5.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<h1>small arrays</h1>
+<h2>Jason Furtney</h2>
+<h2><a href="mailto:@jkfurtney">@jkfurtney</a></h2>
+<h2></h2></section>
+
+<section>
+<section id="sec-1" >
+
+<h2>pyttsx</h2>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">import</span> pyttsx
+
+<span style="color: #D8FA3C;">engine</span> = pyttsx.init()
+engine.say(<span style="color: #61CE3C;">"Hello world"</span>)
+engine.runAndWait()
+</pre>
+</div>
+
+<p>
+Cross-platform text to speech
+</p>
+
+</section>
+<section id="sec-1-1" >
+
+<h3>Announce the time</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">import</span> time
+<span style="color: #FBDE2D;">import</span> pyttsx
+<span style="color: #FBDE2D;">import</span> schedule
+
+<span style="color: #D8FA3C;">engine</span> = pyttsx.init()
+
+<span style="color: #FBDE2D;">def</span> <span style="color: #ff1493;">say_time</span>():
+    <span style="color: #D8FA3C;">s</span> = time.localtime()
+    <span style="color: #D8FA3C;">h</span>, <span style="color: #D8FA3C;">m</span> = s.tm_hour, s.tm_min
+    <span style="color: #FBDE2D;">if</span> m == 0:
+        <span style="color: #D8FA3C;">suffix</span> = <span style="color: #61CE3C;">" o clock "</span>
+    <span style="color: #FBDE2D;">else</span>:
+        <span style="color: #D8FA3C;">suffix</span> = <span style="color: #61CE3C;">" thirty "</span>
+    <span style="color: #D8FA3C;">announcement</span> = <span style="color: #61CE3C;">" It is {hour} {suffix}"</span>.<span style="color: #FF6400;">format</span>(hour=<span style="color: #FF6400;">str</span>(h), suffix=suffix)
+    engine.say(announcement))
+    engine.runAndWait()
+
+schedule.every().hour.at(<span style="color: #61CE3C;">":00"</span>).do(say_time)
+schedule.every().hour.at(<span style="color: #61CE3C;">":30"</span>).do(say_time)
+
+<span style="color: #FBDE2D;">while</span> <span style="color: #4c83ff;">True</span>:
+    schedule.run_pending()
+    time.sleep(5)
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-2" >
+
+<h2>Python Easter Eggs</h2>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">import</span> this
+
+<span style="color: #FBDE2D;">import</span> antigravity
+
+<span style="color: #FBDE2D;">from</span> __future__ <span style="color: #FBDE2D;">import</span> braces
+</pre>
+</div>
+
+</section>
+<section id="sec-2-1" >
+
+<h3>import this</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #D8FA3C;">s</span> = <span style="color: #61CE3C;">"""Gur Mra bs Clguba, ol Gvz Crgref</span>
+
+<span style="color: #61CE3C;">Ornhgvshy vf orggre guna htyl.</span>
+<span style="color: #61CE3C;">Rkcyvpvg vf orggre guna vzcyvpvg.</span>
+<span style="color: #61CE3C;">Fvzcyr vf orggre guna pbzcyrk.</span>
+<span style="color: #61CE3C;">Pbzcyrk vf orggre guna pbzcyvpngrq.</span>
+<span style="color: #61CE3C;">Syng vf orggre guna arfgrq.</span>
+<span style="color: #61CE3C;">Fcnefr vf orggre guna qrafr.</span>
+<span style="color: #61CE3C;">Ernqnovyvgl pbhagf.</span>
+<span style="color: #61CE3C;">Fcrpvny pnfrf nera'g fcrpvny rabhtu gb oernx gur ehyrf.</span>
+<span style="color: #61CE3C;">Nygubhtu cenpgvpnyvgl orngf chevgl.</span>
+<span style="color: #61CE3C;">Reebef fubhyq arire cnff fvyragyl.</span>
+<span style="color: #61CE3C;">Hayrff rkcyvpvgyl fvyraprq.</span>
+<span style="color: #61CE3C;">Va gur snpr bs nzovthvgl, ershfr gur grzcgngvba gb thrff.</span>
+<span style="color: #61CE3C;">Gurer fubhyq or bar-- naq cersrenoyl bayl bar --boivbhf jnl gb qb vg.</span>
+<span style="color: #61CE3C;">Nygubhtu gung jnl znl abg or boivbhf ng svefg hayrff lbh'er Qhgpu.</span>
+<span style="color: #61CE3C;">Abj vf orggre guna arire.</span>
+<span style="color: #61CE3C;">Nygubhtu arire vf bsgra orggre guna *evtug* abj.</span>
+<span style="color: #61CE3C;">Vs gur vzcyrzragngvba vf uneq gb rkcynva, vg'f n onq vqrn.</span>
+<span style="color: #61CE3C;">Vs gur vzcyrzragngvba vf rnfl gb rkcynva, vg znl or n tbbq vqrn.</span>
+<span style="color: #61CE3C;">Anzrfcnprf ner bar ubaxvat terng vqrn -- yrg'f qb zber bs gubfr!"""</span>
+
+<span style="color: #D8FA3C;">d</span> = {}
+<span style="color: #FBDE2D;">for</span> c <span style="color: #FBDE2D;">in</span> (65, 97):
+    <span style="color: #FBDE2D;">for</span> i <span style="color: #FBDE2D;">in</span> <span style="color: #FF6400;">range</span>(26):
+        <span style="color: #D8FA3C;">d</span>[<span style="color: #FF6400;">chr</span>(i+c)] = <span style="color: #FF6400;">chr</span>((i+13) % 26 + c)
+
+<span style="color: #FBDE2D;">print</span> <span style="color: #61CE3C;">""</span>.join([d.get(c, c) <span style="color: #FBDE2D;">for</span> c <span style="color: #FBDE2D;">in</span> s])
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-3" >
+
+<h2>Small NumPy Arrays (N&lt;100)</h2>
+<ul class="org-ul">
+<li><code>numpy</code> is fantastic!
+</li>
+
+<li>You want a big chunk of data in a single array
+<ul class="org-ul">
+<li>slices, array views, broadcasting, fancy indexing, ufuncs &amp; cetera.
+</li>
+</ul>
+</li>
+
+<li>But not always
+<ul class="org-ul">
+<li><code>numpy</code> it can be slow for small arrays
+</li>
+<li>Because of&#x2026; constant time and space overhead
+</li>
+<li>See: <a href="http://stackoverflow.com/questions/6559463/why-is-numpy-array-so-slow">http://stackoverflow.com/questions/6559463/why-is-numpy-array-so-slow</a>
+</li>
+<li><code>numpy</code> is not designed for working with many small arrays
+</li>
+</ul>
+</li>
+</ul>
+
+</section>
+<section id="sec-3-1" >
+
+<h3>the problem</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">import</span> numpy <span style="color: #FBDE2D;">as</span> np
+
+%timeit np.array((1,0, 2.0, 3.0))    <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">780 ns</span>
+
+%timeit [1,0, 2.0, 3.0]              <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">74 ns</span>
+
+%timeit (1,0, 2.0, 3.0)              <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">13 ns</span>
+</pre>
+</div>
+
+</section>
+<section id="sec-3-2" >
+
+<h3>numpy c code</h3>
+<div class="org-src-container">
+
+<pre  class="src src-c"><span style="color: #FBDE2D;">typedef</span> <span style="color: #FBDE2D;">struct</span> <span style="color: #D8FA3C;">tagPyArrayObject_fields</span> {
+    PyObject_HEAD
+    <span style="color: #D8FA3C;">char</span> *<span style="color: #D8FA3C;">data</span>;
+    <span style="color: #D8FA3C;">int</span> <span style="color: #D8FA3C;">nd</span>;
+    <span style="color: #D8FA3C;">npy_intp</span> *<span style="color: #D8FA3C;">dimensions</span>;
+    <span style="color: #D8FA3C;">npy_intp</span> *<span style="color: #D8FA3C;">strides</span>;
+    <span style="color: #D8FA3C;">PyObject</span> *<span style="color: #D8FA3C;">base</span>;
+    <span style="color: #D8FA3C;">PyArray_Descr</span> *<span style="color: #D8FA3C;">descr</span>;
+    <span style="color: #D8FA3C;">int</span> <span style="color: #D8FA3C;">flags</span>;
+    <span style="color: #D8FA3C;">PyObject</span> *<span style="color: #D8FA3C;">weakreflist</span>;
+} <span style="color: #D8FA3C;">PyArrayObject_fields</span>;
+
+<span style="color: #FBDE2D;">typedef</span> <span style="color: #FBDE2D;">struct</span> <span style="color: #D8FA3C;">_PyArray_Descr</span> {
+        PyObject_HEAD
+        <span style="color: #D8FA3C;">PyTypeObject</span> *<span style="color: #D8FA3C;">typeobj</span>;
+        <span style="color: #D8FA3C;">char</span> <span style="color: #D8FA3C;">kind</span>;
+        <span style="color: #D8FA3C;">char</span> <span style="color: #D8FA3C;">type</span>;
+        <span style="color: #D8FA3C;">char</span> <span style="color: #D8FA3C;">byteorder</span>;
+        <span style="color: #D8FA3C;">char</span> <span style="color: #D8FA3C;">flags</span>;
+        <span style="color: #D8FA3C;">int</span> <span style="color: #D8FA3C;">type_num</span>;
+        <span style="color: #D8FA3C;">int</span> <span style="color: #D8FA3C;">elsize</span>;
+        <span style="color: #D8FA3C;">int</span> <span style="color: #D8FA3C;">alignment</span>;
+        <span style="color: #FBDE2D;">struct</span> <span style="color: #D8FA3C;">_arr_descr</span> *<span style="color: #D8FA3C;">subarray</span>;
+        <span style="color: #D8FA3C;">PyObject</span> *<span style="color: #D8FA3C;">fields</span>;
+        <span style="color: #D8FA3C;">PyObject</span> *<span style="color: #D8FA3C;">names</span>;
+        <span style="color: #D8FA3C;">PyArray_ArrFuncs</span> *<span style="color: #D8FA3C;">f</span>;
+        <span style="color: #D8FA3C;">PyObject</span> *<span style="color: #D8FA3C;">metadata</span>;
+        <span style="color: #D8FA3C;">NpyAuxData</span> *<span style="color: #D8FA3C;">c_metadata</span>;
+} <span style="color: #D8FA3C;">PyArray_Descr</span>;
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-4" >
+
+<h2>tinyarray</h2>
+<ul class="org-ul">
+<li>Designed for arrays with less than 100 elements
+</li>
+<li>Interop with <code>numpy</code> arrays
+</li>
+<li>Immutable
+</li>
+<li>Up-to 35x faster than <code>numpy</code>
+</li>
+<li><a href="http://git.kwant-project.org/tinyarray/about/">http://git.kwant-project.org/tinyarray/about/</a>
+</li>
+</ul>
+
+
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">from</span> math <span style="color: #FBDE2D;">import</span> sin, cos, sqrt
+<span style="color: #FBDE2D;">import</span> tinyarray <span style="color: #FBDE2D;">as</span> ta
+
+<span style="color: #D8FA3C;">v</span> = ta.array([1.0, 2.0, 3.0])
+
+<span style="color: #D8FA3C;">alpha</span> = 0.77
+<span style="color: #D8FA3C;">c</span>, <span style="color: #D8FA3C;">s</span> = cos(alpha), sin(alpha)
+<span style="color: #D8FA3C;">rot_z</span> = ta.array([[c, -s, 0],
+                  [s,  c, 0],
+                  [0,  0, 1]])
+
+<span style="color: #D8FA3C;">v</span> = ta.dot(rot_z, v) <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">Rotate the vector, normalize, and print it.</span>
+<span style="color: #D8FA3C;">v</span> /= sqrt(ta.dot(v, v))
+<span style="color: #FBDE2D;">print</span> v
+</pre>
+</div>
+
+</section>
+<section id="sec-4-1" >
+
+<h3>timing</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">import</span> numpy <span style="color: #FBDE2D;">as</span> np
+<span style="color: #FBDE2D;">import</span> tinyarray <span style="color: #FBDE2D;">as</span> ta
+
+%timeit np.array((1,0, 2.0, 3.0))    <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">780 ns</span>
+%timeit ta.array((1,0, 2.0, 3.0))    <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">176 ns</span>
+
+%timeit 3 * np.array((1.0, 2.0, 3.0)) + np.array((99.1, 99.2, 99.2)) <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">3910 ns</span>
+%timeit 3 * ta.array((1.0, 2.0, 3.0)) + ta.array((99.1, 99.2, 99.2)) <span style="color: #8B8989; font-style: italic;">#  </span><span style="color: #8B8989; font-style: italic;">650 ns</span>
+</pre>
+</div>
+
+<ul class="org-ul">
+<li><code>tinyarray</code> still has too much constant overhead for length three
+vectors
+<ul class="org-ul">
+<li>Itasca's in-house scripting language is 15% faster than Python +
+<code>tinyarray</code> for length three vectors.
+</li>
+</ul>
+</li>
+<li>Is there anything else?
+</li>
+</ul>
+</section>
+
+</section>
+<section>
+<section id="sec-5" >
+
+<h2>dvec</h2>
+<ul class="org-ul">
+<li>Double precision only
+</li>
+<li>Length 3 vectors and 3x3 symetric tensors only
+</li>
+<li>Interop with numpy
+</li>
+<li>Defines useful methods: dot product, cross product, normalize,
+magnitude &amp; cetera.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre  class="src src-c"><span style="color: #FBDE2D;">typedef</span> <span style="color: #FBDE2D;">struct</span> <span style="color: #D8FA3C;">dvec3</span> {
+    PyObject_HEAD
+    <span style="color: #D8FA3C;">double</span> <span style="color: #D8FA3C;">x</span>;
+    <span style="color: #D8FA3C;">double</span> <span style="color: #D8FA3C;">y</span>;
+    <span style="color: #D8FA3C;">double</span> <span style="color: #D8FA3C;">z</span>;
+}
+</pre>
+</div>
+
+</section>
+<section id="sec-5-1" >
+
+<h3>timing</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">import</span> numpy <span style="color: #FBDE2D;">as</span> np
+<span style="color: #FBDE2D;">import</span> tinyarray <span style="color: #FBDE2D;">as</span> ta
+<span style="color: #FBDE2D;">from</span> dvec <span style="color: #FBDE2D;">import</span> dvec3
+
+%timeit np.array((1,0, 2.0, 3.0))    <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">780 ns</span>
+%timeit ta.array((1,0, 2.0, 3.0))    <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">176 ns</span>
+%timeit dvec3((1.0, 2.0, 3.0))       <span style="color: #8B8989; font-style: italic;">#  </span><span style="color: #8B8989; font-style: italic;">73 ns</span>
+
+%timeit 3 * np.array((1.0, 2.0, 3.0)) + np.array((99.1, 99.2, 99.2))  <span style="color: #8B8989; font-style: italic;"># </span><span style="color: #8B8989; font-style: italic;">3910 ns</span>
+%timeit 3 * ta.array((1.0, 2.0, 3.0)) + ta.array((99.1, 99.2, 99.2))  <span style="color: #8B8989; font-style: italic;">#  </span><span style="color: #8B8989; font-style: italic;">650 ns</span>
+%timeit 3 * dvec3((1.0, 2.0, 3.0)) + dvec3((99.1, 99.2, 99.2))        <span style="color: #8B8989; font-style: italic;">#  </span><span style="color: #8B8989; font-style: italic;">414 ns</span>
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Python + <code>dvec</code> module is 30% faster than Itasca's in-house scripting system.
+</li>
+</ul>
+
+</section>
+<section id="sec-5-2" >
+
+<h3>cython implementation</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #FBDE2D;">ctypedef</span> <span style="color: #FBDE2D;">class</span> <span style="color: #D8FA3C;">dvec3</span>:
+    <span style="color: #FBDE2D;">cdef</span> <span style="color: #FBDE2D;">public</span> <span style="color: #FF6400;">double</span> x_, y_, z_
+    <span style="color: #FBDE2D;">def</span> <span style="color: #ff1493;">__cinit__</span>(<span style="color: #FBDE2D;">self</span>, <span style="color: #FF6400;">double</span> x, <span style="color: #FF6400;">double</span> y, <span style="color: #FF6400;">double</span> z):
+        <span style="color: #FBDE2D;">self</span>.x_ = x
+        <span style="color: #FBDE2D;">self</span>.y_ = y
+        <span style="color: #FBDE2D;">self</span>.z_ = z
+
+    <span style="color: #FBDE2D;">def</span> <span style="color: #ff1493;">__len__</span>(<span style="color: #FBDE2D;">self</span>): <span style="color: #FBDE2D;">return</span> 3
+
+    <span style="color: #FBDE2D;">def</span> <span style="color: #ff1493;">__getitem__</span>(<span style="color: #FBDE2D;">self</span>, <span style="color: #FF6400;">int</span> i):
+        <span style="color: #FBDE2D;">if</span> i == 0: <span style="color: #FBDE2D;">return</span> <span style="color: #FBDE2D;">self</span>.x_
+        <span style="color: #FBDE2D;">elif</span> i == 1: <span style="color: #FBDE2D;">return</span> <span style="color: #FBDE2D;">self</span>.y_
+        <span style="color: #FBDE2D;">elif</span> i == 2: <span style="color: #FBDE2D;">return</span> <span style="color: #FBDE2D;">self</span>.z_
+        <span style="color: #FBDE2D;">else</span>: <span style="color: #FBDE2D;">raise</span> <span style="color: #D8FA3C;">IndexError</span>(<span style="color: #61CE3C;">"index out of range"</span>)
+
+    <span style="color: #FBDE2D;">def</span> <span style="color: #ff1493;">__add__</span>(<span style="color: #FBDE2D;">self</span>, other):
+        <span style="color: #FBDE2D;">if</span> <span style="color: #FF6400;">type</span>(<span style="color: #FBDE2D;">self</span>) <span style="color: #FBDE2D;">is</span> dvec3:
+            <span style="color: #FBDE2D;">return</span> dvec3.__new__(dvec3, <span style="color: #FBDE2D;">self</span>.x_ + other.x_,
+                                        <span style="color: #FBDE2D;">self</span>.y_ + other.y_,
+                                        <span style="color: #FBDE2D;">self</span>.z_ + other.z_)
+        <span style="color: #FBDE2D;">if</span> <span style="color: #FF6400;">type</span>(other) <span style="color: #FBDE2D;">is</span> <span style="color: #FF6400;">float</span>:
+            <span style="color: #FBDE2D;">return</span> dvec3.__new__(dvec3, <span style="color: #FBDE2D;">self</span>.x_ + other,
+                                        <span style="color: #FBDE2D;">self</span>.y_ + other,
+                                        <span style="color: #FBDE2D;">self</span>.z_ + other)
+        <span style="color: #FBDE2D;">return</span> <span style="color: #4c83ff;">NotImplemented</span>
+
+    <span style="color: #FBDE2D;">def</span> <span style="color: #ff1493;">__repr__</span>(<span style="color: #FBDE2D;">self</span>):
+        <span style="color: #FBDE2D;">return</span> <span style="color: #61CE3C;">"dvec3({:9e}, {:9e}, {:9e})"</span>.<span style="color: #FF6400;">format</span>(<span style="color: #FBDE2D;">self</span>.x_, <span style="color: #FBDE2D;">self</span>.y_, <span style="color: #FBDE2D;">self</span>.z_)
+</pre>
+</div>
+</section>
+
+</section>
+<section>
+<section id="sec-6" >
+
+<h2>Thank you</h2>
+</section>
+</section>
+</div>
+</div>
+
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/2.5.0/js/reveal.min.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: true,
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/2.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+]
+});
+</script>
+</body>
+</html>
